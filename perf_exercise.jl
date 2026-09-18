@@ -32,12 +32,16 @@ using Random
 using Statistics
 
 # --- Global state used directly inside the functions below ---
-N = 2_000_000
-data = rand(N)
+const N = 2_000_000
+const data = rand(N)
 
 # 1. Summary statistics
 function compute_stats(data)
-    return [sum(data), mean(data), maximum(data), minimum(data), std(data)]
+    total = sum(data)
+    avg = total / length(data)
+    high = maximum(data)
+    low = minimum(data)
+    return [total, avg, high, low, std(data; mean=avg)]
 end
 
 # 2. Monte Carlo estimate of pi
@@ -80,9 +84,9 @@ function unstable_sum(xs)
     return total
 end
 
-function main()
+function main(input_data=data)
     println("Computing stats...")
-    stats = compute_stats(data)
+    stats = compute_stats(input_data)
     println(stats)
 
     println("Estimating pi...")
@@ -100,7 +104,9 @@ function main()
     println(report)
 
     println("Summing with condition...")
-    println(unstable_sum(data))
+    println(unstable_sum(input_data))
 end
 
-@time main()
+if abspath(PROGRAM_FILE) == abspath(@__FILE__)
+    @time main()
+end
