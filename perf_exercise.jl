@@ -32,11 +32,13 @@ using Random
 using Statistics
 
 # --- Global state used directly inside the functions below ---
+# Constant bindings make the global types predictable; the array remains mutable.
 const N = 2_000_000
 const data = rand(N)
 
 # 1. Summary statistics
 function compute_stats(data)
+    # Reuse the total and mean instead of repeating reductions over the input.
     total = sum(data)
     avg = total / length(data)
     high = maximum(data)
@@ -84,6 +86,7 @@ function unstable_sum(xs)
     return total
 end
 
+# Pass data as an argument so the computational functions receive typed inputs.
 function main(input_data=data)
     println("Computing stats...")
     stats = compute_stats(input_data)
@@ -107,6 +110,7 @@ function main(input_data=data)
     println(unstable_sum(input_data))
 end
 
+# Including this file defines functions without running the demonstration.
 if abspath(PROGRAM_FILE) == abspath(@__FILE__)
     @time main()
 end

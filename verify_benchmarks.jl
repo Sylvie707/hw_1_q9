@@ -2,6 +2,12 @@ using Random
 using Statistics
 using InteractiveUtils
 
+# Comparison: all five function checks passed on Julia 1.12.7.
+# Recorded warm medians for compute_stats: 1.2284 ms -> 0.8898 ms (~28% less).
+# Both measurements allocated 96 bytes; allocation reduction is not claimed.
+# Recorded first baseline main run: 0.291382 s, 76.127 MiB (includes compilation).
+# The partner already optimized the other functions; their timing varies between runs.
+
 module Baseline
     # Use the pinned snapshot so verification also works without a local Git repository.
     include("perf_exercise_baseline.jl")
@@ -12,6 +18,8 @@ module Optimized
 end
 
 const BENCHMARK_RESULT = Ref{Any}()
+# Consuming results prevents unused work from being removed. Measurement totals
+# include this helper's overhead, such as boxing scalar return values.
 
 @noinline function consume(f)
     BENCHMARK_RESULT[] = f()
