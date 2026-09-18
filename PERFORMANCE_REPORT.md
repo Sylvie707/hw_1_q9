@@ -2,7 +2,9 @@
 
 ## Workflow
 
-Forked maxjiFan/hw_1_q9 to Sylvie707/hw_1_q9, cloned the fork, and created the optimize-performance branch. The baseline is the actual upstream/main source, not the older course ZIP or previously optimized local exercise.
+Forked maxjiFan/hw_1_q9 to Sylvie707/hw_1_q9, cloned the fork, and created the optimize-performance branch. The baseline is the actual upstream revision 64733ce98ec2c1802128bde2989d1e67bb5bec35, not the older course ZIP or previously optimized local exercise. The verification script pins that revision to keep later upstream updates from changing the baseline.
+
+Pull request: https://github.com/maxjiFan/hw_1_q9/pull/2. The request is open; partner review and merge are not claimed to be complete.
 
 ## Changes
 
@@ -25,7 +27,21 @@ The first upstream main run took 0.291382 seconds and reported 908.45 thousand a
 
 Other functions were already optimized upstream. Their small timing differences between separate measurements are not evidence of improvements. End-to-end main also generates a large random matrix and prints results, so its time and allocations are not solely attributable to compute_stats.
 
-## Pull Request Description
+## Redo Verification
+
+The pinned baseline was rerun during the redo of Questions 7-10. All five equivalence checks passed again. Seven warmed measurements produced the following medians; unchanged functions show timing noise rather than new optimization benefits.
+
+| Function | Baseline ms | Optimized ms | Baseline bytes | Optimized bytes |
+| --- | ---: | ---: | ---: | ---: |
+| compute_stats | 1.2284 | 0.8898 | 96 | 96 |
+| monte_carlo_pi | 1.3847 | 1.4418 | 16 | 16 |
+| row_sums | 0.5063 | 0.5095 | 16496 | 16496 |
+| build_report | 0.0063 | 0.0052 | 3360 | 3360 |
+| unstable_sum | 1.1529 | 1.1635 | 16 | 16 |
+
+The reference used to consume benchmark results contributes measurement overhead, including boxing scalar results; these allocation figures are benchmark totals. The latest upstream cold main run was 0.298900 seconds, with 908.44 thousand allocations and 76.127 MiB. It is not compared directly with warmed function measurements.
+
+## Pull Request Summary
 
 Reuse the sum and mean in compute_stats to avoid redundant reductions, make global bindings constant, and pass data into main. Retain the upstream's existing optimized implementations and add a guarded entry point.
 

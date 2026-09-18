@@ -3,8 +3,9 @@ using Statistics
 using InteractiveUtils
 
 module Baseline
-    # Load the exact upstream revision rather than a reconstructed baseline.
-    source = read(`git show upstream/main:perf_exercise.jl`, String)
+    # Pin the measured upstream revision so future upstream changes cannot alter the baseline.
+    const BASELINE_REVISION = "64733ce98ec2c1802128bde2989d1e67bb5bec35"
+    source = read(`git show $(BASELINE_REVISION * ":perf_exercise.jl")`, String)
     include_string(@__MODULE__, source, "upstream_perf_exercise.jl")
 end
 
