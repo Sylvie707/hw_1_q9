@@ -17,7 +17,7 @@ The upstream already used scalar random draws, vec(sum(A, dims=2)), IOBuffer, an
 
 ## Verification and Measurement
 
-Run `julia verify_benchmarks.jl` from this repository. It loads upstream/main directly using git show, checks all five functions, warms each benchmark, and reports the median of seven runs. Input data use a fixed MersenneTwister seed. The Monte Carlo equivalence check resets the random seed for each implementation. Statistics are checked with numerical tolerance; other function comparisons use exact equality on the tested inputs. Report formatting is checked with identical supplied values.
+Run `julia verify_benchmarks.jl` from this directory. It loads perf_exercise_baseline.jl, a snapshot of the pinned upstream commit, checks all five functions, warms each benchmark, and reports the median of seven runs. Git history is not required to execute the submitted comparison. Input data use a fixed MersenneTwister seed. The Monte Carlo equivalence check resets the random seed for each implementation. Statistics are checked with numerical tolerance; other function comparisons use exact equality on the tested inputs. Report formatting is checked with identical supplied values.
 
 The benchmark consumes every result through a reference to prevent unused computations from being eliminated. Type inference using @code_warntype confirms a Vector{Float64} return type for optimized compute_stats on the tested vector.
 

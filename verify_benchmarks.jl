@@ -3,10 +3,8 @@ using Statistics
 using InteractiveUtils
 
 module Baseline
-    # Pin the measured upstream revision so future upstream changes cannot alter the baseline.
-    const BASELINE_REVISION = "64733ce98ec2c1802128bde2989d1e67bb5bec35"
-    source = read(`git show $(BASELINE_REVISION * ":perf_exercise.jl")`, String)
-    include_string(@__MODULE__, source, "upstream_perf_exercise.jl")
+    # Use the pinned snapshot so verification also works without a local Git repository.
+    include("perf_exercise_baseline.jl")
 end
 
 module Optimized
